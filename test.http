@@ -1,0 +1,7 @@
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "texto": "Inteligência Artificial aplicada em análise de dados",
+  "quantidade": 5
+}
