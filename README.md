@@ -130,8 +130,6 @@ Baixe e instale via [https://ollama.com/download](https://ollama.com/download)
 ### 3️⃣ Baixar modelo leve
 ```bash
 ollama pull llama3.2:3b
-# ou
-ollama pull phi4-mini
 ```
 
 ### 4️⃣ Confirmar se o Ollama está rodando
