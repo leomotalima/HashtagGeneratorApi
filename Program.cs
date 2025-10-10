@@ -5,16 +5,17 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-// Modelo de resposta esperada do Ollama
-public record HashtagResponse([property: JsonPropertyName("hashtags")] List<string> Hashtags);
+// 🔧 Lê configurações do Ollama via appsettings.json
+var ollamaBaseUrl = builder.Configuration["Ollama:BaseUrl"] ?? "http://localhost:11434";
+var ollamaModel = builder.Configuration["Ollama:Model"] ?? "llama3.2:3b";
 
-// Modelo da requisição local
+// Modelo de resposta esperada
+public record HashtagResponse([property: JsonPropertyName("hashtags")] List<string> Hashtags);
 public record HashtagRequest(string Texto, int Quantidade = 5);
 
-// Endpoint principal
 app.MapPost("/hashtags", async (HashtagRequest req) =>
 {
-    using var http = new HttpClient { BaseAddress = new Uri("http://localhost:11434") };
+    using var http = new HttpClient { BaseAddress = new Uri(ollamaBaseUrl) };
 
     var prompt = $"""
     Gere exatamente {req.Quantidade} hashtags curtas e relevantes sobre o seguinte texto:
@@ -28,13 +29,14 @@ app.MapPost("/hashtags", async (HashtagRequest req) =>
 
     var payload = new
     {
-        model = "llama3.2:3b",
+        model = ollamaModel,
         prompt,
         stream = false,
         format = "json"
     };
 
     var response = await http.PostAsJsonAsync("/api/generate", payload);
+
     if (!response.IsSuccessStatusCode)
     {
         var erro = await response.Content.ReadAsStringAsync();
