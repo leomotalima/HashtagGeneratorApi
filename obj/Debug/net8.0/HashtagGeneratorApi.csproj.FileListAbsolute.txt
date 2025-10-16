@@ -1,5 +1,0 @@
-C:\Users\leom\Downloads\HashtagGeneratorApi\obj\Debug\net8.0\HashtagGeneratorApi.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\leom\Downloads\HashtagGeneratorApi\obj\Debug\net8.0\HashtagGeneratorApi.AssemblyInfoInputs.cache
-C:\Users\leom\Downloads\HashtagGeneratorApi\obj\Debug\net8.0\HashtagGeneratorApi.AssemblyInfo.cs
-C:\Users\leom\Downloads\HashtagGeneratorApi\obj\Debug\net8.0\HashtagGeneratorApi.csproj.CoreCompileInputs.cache
-C:\Users\leom\Downloads\HashtagGeneratorApi\obj\Debug\net8.0\HashtagGeneratorApi.MvcApplicationPartsAssemblyInfo.cache
