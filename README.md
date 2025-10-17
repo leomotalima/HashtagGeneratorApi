@@ -174,12 +174,6 @@ Use o `test.http` ou Postman para enviar o POST `/hashtags`.
 
 ---
 
-## 🧭 Fluxo da Aplicação
-
-Veja o diagrama completo em [`docs/diagrama_fluxo.md`](docs/diagrama_fluxo.md)
-
----
-
 ## 🧪 Testes Locais
 
 Execute:
