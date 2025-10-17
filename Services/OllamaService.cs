@@ -18,7 +18,7 @@ public class OllamaService
         // Exemplo de JSON de referência para o prompt
         var exemploJson = JsonSerializer.Serialize(new { hashtags = new[] { "#exemplo1", "#exemplo2" } });
 
-        // Prompt usando interpolação segura
+        // Prompt seguro
         var prompt = $"""
 Gere exatamente {quantidade} hashtags curtas e relevantes sobre o seguinte texto:
 "{texto}"
@@ -27,32 +27,54 @@ Responda em formato JSON válido no esquema: {exemploJson}
 
         var body = new
         {
-            model = "llama3",
+            model = "llama3.2:3b", // modelo leve instalado
             prompt,
             stream = false,
             format = "json"
         };
 
-        var response = await _http.PostAsJsonAsync("http://localhost:11434/api/generate", body);
-
-        if (!response.IsSuccessStatusCode)
-            return null;
-
-        var result = await response.Content.ReadFromJsonAsync<JsonElement>();
-
-        if (result.TryGetProperty("response", out var responseText))
+        try
         {
+            var response = await _http.PostAsJsonAsync("http://localhost:11434/api/generate", body);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"Erro Ollama: {response.StatusCode}");
+                return null;
+            }
+
+            var result = await response.Content.ReadFromJsonAsync<JsonElement>();
+
+            if (!result.TryGetProperty("response", out var responseText))
+            {
+                Console.WriteLine("O JSON retornado pelo Ollama não contém 'response'");
+                return null;
+            }
+
+            // Desserializa o JSON interno que está como string dentro de "response"
+            var responseInterno = responseText.GetString();
+            if (string.IsNullOrWhiteSpace(responseInterno))
+            {
+                Console.WriteLine("Resposta interna do Ollama está vazia");
+                return null;
+            }
+
             try
             {
-                var json = JsonSerializer.Deserialize<HashtagResponse>(responseText.GetString() ?? "{}");
-                return json;
+                var hashtags = JsonSerializer.Deserialize<HashtagResponse>(responseInterno);
+                return hashtags;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Erro ao desserializar JSON interno: {ex.Message}");
+                Console.WriteLine($"Conteúdo retornado: {responseInterno}");
                 return null;
             }
         }
-
-        return null;
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao chamar Ollama: {ex.Message}");
+            return null;
+        }
     }
 }
