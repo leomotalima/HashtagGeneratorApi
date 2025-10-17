@@ -1,5 +1,7 @@
+
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Linq;
 using HashtagGeneratorApi.Models;
 
 namespace HashtagGeneratorApi.Services;
@@ -13,21 +15,23 @@ public class OllamaService
         _http = http;
     }
 
-    public async Task<HashtagResponse?> GerarHashtagsAsync(string texto, int quantidade)
+    // Agora aceita 3 parâmetros: text, count, model
+    public async Task<HashtagResponse?> GerarHashtagsAsync(string text, int count, string model)
     {
-        // Exemplo de JSON de referência para o prompt
+        // JSON de exemplo para forçar saída estruturada
         var exemploJson = JsonSerializer.Serialize(new { hashtags = new[] { "#exemplo1", "#exemplo2" } });
 
-        // Prompt seguro
+        // Prompt estruturado e explícito
         var prompt = $"""
-Gere exatamente {quantidade} hashtags curtas e relevantes sobre o seguinte texto:
-"{texto}"
-Responda em formato JSON válido no esquema: {exemploJson}
+Gere exatamente {count} hashtags únicas, curtas, sem espaços e sem duplicadas
+sobre o tema: "{text}".
+Cada hashtag deve começar com '#'. 
+Responda somente com um JSON válido conforme este exemplo: {exemploJson}
 """;
 
         var body = new
         {
-            model = "llama3", // modelo leve instalado
+            model = model,
             prompt,
             stream = false,
             format = "json"
@@ -51,7 +55,6 @@ Responda em formato JSON válido no esquema: {exemploJson}
                 return null;
             }
 
-            // Desserializa o JSON interno que está como string dentro de "response"
             var responseInterno = responseText.GetString();
             if (string.IsNullOrWhiteSpace(responseInterno))
             {
@@ -59,17 +62,49 @@ Responda em formato JSON válido no esquema: {exemploJson}
                 return null;
             }
 
+            // 🧩 Extrai apenas o JSON válido (entre o primeiro '{' e o último '}')
+            var inicio = responseInterno.IndexOf('{');
+            var fim = responseInterno.LastIndexOf('}');
+            if (inicio < 0 || fim <= inicio)
+            {
+                Console.WriteLine("Resposta do Ollama não contém JSON válido.");
+                Console.WriteLine($"Conteúdo recebido: {responseInterno}");
+                return null;
+            }
+
+            var jsonLimpo = responseInterno.Substring(inicio, (fim - inicio + 1));
+
+            HashtagResponse? hashtags;
             try
             {
-                var hashtags = JsonSerializer.Deserialize<HashtagResponse>(responseInterno);
-                return hashtags;
+                hashtags = JsonSerializer.Deserialize<HashtagResponse>(jsonLimpo);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao desserializar JSON interno: {ex.Message}");
-                Console.WriteLine($"Conteúdo retornado: {responseInterno}");
+                Console.WriteLine($"Erro ao desserializar JSON limpo: {ex.Message}");
+                Console.WriteLine($"JSON limpo recebido: {jsonLimpo}");
                 return null;
             }
+
+            if (hashtags == null || hashtags.Hashtags == null)
+            {
+                return null;
+            }
+
+            // Pós-processamento: limpa duplicatas, espaços e garante prefixo '#'
+            hashtags.Model = model;
+            hashtags.Hashtags = hashtags.Hashtags
+                .Where(h => !string.IsNullOrWhiteSpace(h))
+                .Select(h => h.Trim())
+                .Select(h => h.StartsWith("#") ? h : "#" + h)
+                .Select(h => h.Replace(" ", ""))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Take(count)
+                .ToList();
+
+            hashtags.Count = hashtags.Hashtags.Count;
+
+            return hashtags;
         }
         catch (Exception ex)
         {

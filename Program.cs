@@ -20,7 +20,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Configuração para JSON case-insensitive
 builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
 {
     options.SerializerOptions.PropertyNameCaseInsensitive = true;
@@ -48,21 +47,31 @@ app.UseCors();
 // ----------------------
 app.MapPost("/hashtags", async ([FromBody] HashtagRequest req, OllamaService ollama) =>
 {
-    Console.WriteLine($"Texto recebido: {req.Texto}, Quantidade: {req.Quantidade}");
+    Console.WriteLine($"Texto recebido: {req.Text}, Count: {req.Count}, Modelo: {req.Model}");
 
-    if (string.IsNullOrWhiteSpace(req.Texto))
-        return Results.BadRequest("Texto não pode ser vazio.");
+    // Validações
+    if (string.IsNullOrWhiteSpace(req.Text))
+        return Results.BadRequest(new { error = "O campo 'text' é obrigatório e não pode estar vazio." });
 
-    if (req.Quantidade <= 0)
-        req.Quantidade = 1;
+    if (req.Count <= 0)
+        req.Count = 10; // padrão
+    else if (req.Count > 30)
+        req.Count = 30; // máximo permitido
 
-    var resultado = await ollama.GerarHashtagsAsync(req.Texto, req.Quantidade);
+    if (string.IsNullOrWhiteSpace(req.Model))
+        req.Model = "llama3.2:3b"; // modelo padrão
 
-    return resultado is null
-        ? Results.Problem("Erro ao gerar hashtags.")
-        : Results.Ok(resultado);
+    var resultado = await ollama.GerarHashtagsAsync(req.Text, req.Count, req.Model);
+
+    if (resultado is null)
+        return Results.Problem("Erro ao gerar hashtags.");
+
+    return Results.Ok(resultado);
 })
-.WithName("GerarHashtags");
+.WithName("GerarHashtags")
+.WithTags("Hashtags")
+.Produces<HashtagResponse>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status400BadRequest);
 
 app.MapGet("/ping", () => Results.Ok(new { status = "API rodando 🚀" }))
    .WithName("Ping");

@@ -1,3 +1,7 @@
+### Teste de saúde
+GET http://localhost:5000/ping
+
+### Teste do endpoint principal
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
