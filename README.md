@@ -7,6 +7,10 @@
   <p>Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para geração inteligente de hashtags via modelo de linguagem local.</p>
 </div>
 
+<p align="center">
+  🔗 <a href="https://github.com/leomotalima/HashtagGeneratorApi"><b>Repositório Oficial no GitHub</b></a>
+</p>
+
 ---
 
 ## 🏷️ Etiquetas
@@ -79,13 +83,22 @@ sequenceDiagram
 
 ```
 HashtagGeneratorApi/
+├── bin/
+├── docs/
+│   ├── arquitetura.md
+│   ├── diagrama_fluxo.md
+│   └── endpoints.md
+├── Models/
+│   ├── HashtagRequest.cs
+│   └── HashtagResponse.cs
+├── Services/
+│   └── OllamaService.cs
 ├── appsettings.json
 ├── HashtagGeneratorApi.csproj
 ├── Program.cs
 ├── test.http
 ├── README.md
-└── docs/
-    └── diagrama_fluxo.md
+└── .gitignore
 ```
 
 ---
@@ -99,8 +112,9 @@ POST /hashtags
 Content-Type: application/json
 
 {
-  "texto": "Inteligência Artificial aplicada em análise de dados",
-  "quantidade": 5
+  "text": "Inteligência Artificial aplicada em análise de dados",
+  "count": 8,
+  "model": "llama3:latest"
 }
 ```
 
@@ -192,6 +206,22 @@ Durante o desenvolvimento, foram aplicadas:
 - Prompts estruturados e controle de saída JSON;
 - Configuração de ambiente via `appsettings.json`;
 - Uso de Minimal API com código limpo e eficiente.
+
+---
+
+## 📚 Documentação Técnica
+
+Para uma visão detalhada da arquitetura, fluxo e endpoints da aplicação, consulte os arquivos abaixo:
+
+| Documento | Descrição |
+|------------|------------|
+| [🏗️ Arquitetura do Sistema](docs/arquitetura.md) | Estrutura geral da API, camadas e responsabilidades. |
+| [🔄 Diagrama de Fluxo](docs/diagrama_fluxo.md) | Fluxo completo da requisição, do cliente ao Ollama Server. |
+| [🧩 Endpoints da API](docs/endpoints.md) | Detalhamento das rotas, parâmetros e exemplos de requisições. |
+
+---
+
+📦 **Repositório GitHub:** [leomotalima/HashtagGeneratorApi](https://github.com/leomotalima/HashtagGeneratorApi)
 
 ---
 
