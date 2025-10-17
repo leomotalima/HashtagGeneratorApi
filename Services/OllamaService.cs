@@ -27,7 +27,7 @@ Responda em formato JSON válido no esquema: {exemploJson}
 
         var body = new
         {
-            model = "llama3.2:3b", // modelo leve instalado
+            model = "llama3", // modelo leve instalado
             prompt,
             stream = false,
             format = "json"
