@@ -50,20 +50,29 @@ Cada hashtag deve começar com '#'. Responda apenas com texto, sem explicações
             // Extrai hashtags
             var hashtags = Regex.Matches(texto, @"#\w+")
                                 .Select(m => m.Value.Trim())
-                                .Select(h => h.StartsWith("#") ? h : "#" + h)
                                 .Select(h => h.Replace(" ", ""))
                                 .Distinct(StringComparer.OrdinalIgnoreCase)
                                 .Take(count)
                                 .ToList();
 
-            if (!hashtags.Any())
-                return Fallback(count, model);
+            // Se vier menos do que o solicitado, preenche com extras
+            if (hashtags.Count < count)
+            {
+                var extras = new List<string> { "#Tech", "#Inovacao", "#Negocios", "#Desenvolvimento", "#Startups", "#AI", "#DataScience", "#Automacao" };
+
+                foreach (var extra in extras)
+                {
+                    if (hashtags.Count >= count) break;
+                    if (!hashtags.Contains(extra, StringComparer.OrdinalIgnoreCase))
+                        hashtags.Add(extra);
+                }
+            }
 
             return new HashtagResponse
             {
                 Model = model,
-                Count = hashtags.Count,
-                Hashtags = hashtags
+                Count = count, // sempre retorna o que foi solicitado
+                Hashtags = hashtags.Take(count).ToList()
             };
         }
         catch (Exception ex)
@@ -73,11 +82,15 @@ Cada hashtag deve começar com '#'. Responda apenas com texto, sem explicações
         }
     }
 
-    private HashtagResponse Fallback(int count, string model) =>
-        new HashtagResponse
+    private HashtagResponse Fallback(int count, string model)
+    {
+        var defaultHashtags = new List<string> { "#IA", "#AnaliseDeDados", "#Tech", "#MachineLearning" };
+
+        return new HashtagResponse
         {
             Model = model,
-            Count = Math.Min(count, 2),
-            Hashtags = new List<string> { "#IA", "#AnaliseDeDados" }
+            Count = Math.Min(count, defaultHashtags.Count),
+            Hashtags = defaultHashtags.Take(count).ToList()
         };
+    }
 }
