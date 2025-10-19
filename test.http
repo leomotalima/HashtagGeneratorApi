@@ -1,11 +1,12 @@
 ### Teste de saúde
 GET http://localhost:5000/ping
 
-### Teste do endpoint principal
+### Teste do endpoint principal - gerar hashtags
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
 {
-  "texto": "Inteligência Artificial aplicada em análise de dados",
-  "quantidade": 5
+  "text": "Inteligência Artificial aplicada em análise de dados",
+  "count": 8,
+  "model": "llama3:latest"
 }

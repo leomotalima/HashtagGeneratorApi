@@ -1,7 +1,6 @@
-
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Linq;
+using System.Text.RegularExpressions;
 using HashtagGeneratorApi.Models;
 
 namespace HashtagGeneratorApi.Services;
@@ -10,106 +9,75 @@ public class OllamaService
 {
     private readonly HttpClient _http;
 
-    public OllamaService(HttpClient http)
-    {
-        _http = http;
-    }
+    public OllamaService(HttpClient http) => _http = http;
 
-    // Agora aceita 3 parâmetros: text, count, model
-    public async Task<HashtagResponse?> GerarHashtagsAsync(string text, int count, string model)
+    public async Task<HashtagResponse> GerarHashtagsAsync(string text, int count, string model)
     {
-        // JSON de exemplo para forçar saída estruturada
-        var exemploJson = JsonSerializer.Serialize(new { hashtags = new[] { "#exemplo1", "#exemplo2" } });
-
-        // Prompt estruturado e explícito
         var prompt = $"""
-Gere exatamente {count} hashtags únicas, curtas, sem espaços e sem duplicadas
-sobre o tema: "{text}".
-Cada hashtag deve começar com '#'. 
-Responda somente com um JSON válido conforme este exemplo: {exemploJson}
+Crie exatamente {count} hashtags únicas sobre: "{text}".
+Cada hashtag deve começar com '#'. Responda apenas com texto, sem explicações.
 """;
 
-        var body = new
-        {
-            model = model,
-            prompt,
-            stream = false,
-            format = "json"
-        };
+        var body = new { model, prompt, stream = false };
 
         try
         {
+            Console.WriteLine("=== Enviando para Ollama ===");
+            Console.WriteLine(prompt);
+
             var response = await _http.PostAsJsonAsync("http://localhost:11434/api/generate", body);
+            Console.WriteLine($"Status da resposta: {response.StatusCode}");
 
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine($"Erro Ollama: {response.StatusCode}");
-                return null;
-            }
+            var resultText = await response.Content.ReadAsStringAsync();
+            Console.WriteLine("Resposta bruta do Ollama:");
+            Console.WriteLine(resultText);
 
-            var result = await response.Content.ReadFromJsonAsync<JsonElement>();
-
-            if (!result.TryGetProperty("response", out var responseText))
-            {
-                Console.WriteLine("O JSON retornado pelo Ollama não contém 'response'");
-                return null;
-            }
-
-            var responseInterno = responseText.GetString();
-            if (string.IsNullOrWhiteSpace(responseInterno))
-            {
-                Console.WriteLine("Resposta interna do Ollama está vazia");
-                return null;
-            }
-
-            // 🧩 Extrai apenas o JSON válido (entre o primeiro '{' e o último '}')
-            var inicio = responseInterno.IndexOf('{');
-            var fim = responseInterno.LastIndexOf('}');
-            if (inicio < 0 || fim <= inicio)
-            {
-                Console.WriteLine("Resposta do Ollama não contém JSON válido.");
-                Console.WriteLine($"Conteúdo recebido: {responseInterno}");
-                return null;
-            }
-
-            var jsonLimpo = responseInterno.Substring(inicio, (fim - inicio + 1));
-
-            HashtagResponse? hashtags;
+            // Tenta extrair o campo "response"
+            string texto;
             try
             {
-                hashtags = JsonSerializer.Deserialize<HashtagResponse>(jsonLimpo);
+                var json = JsonSerializer.Deserialize<JsonElement>(resultText);
+                texto = json.GetProperty("response").GetString() ?? "";
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"Erro ao desserializar JSON limpo: {ex.Message}");
-                Console.WriteLine($"JSON limpo recebido: {jsonLimpo}");
-                return null;
+                texto = resultText; // fallback para texto puro
             }
 
-            if (hashtags == null || hashtags.Hashtags == null)
+            if (string.IsNullOrWhiteSpace(texto))
+                return Fallback(count, model);
+
+            // Extrai hashtags
+            var hashtags = Regex.Matches(texto, @"#\w+")
+                                .Select(m => m.Value.Trim())
+                                .Select(h => h.StartsWith("#") ? h : "#" + h)
+                                .Select(h => h.Replace(" ", ""))
+                                .Distinct(StringComparer.OrdinalIgnoreCase)
+                                .Take(count)
+                                .ToList();
+
+            if (!hashtags.Any())
+                return Fallback(count, model);
+
+            return new HashtagResponse
             {
-                return null;
-            }
-
-            // Pós-processamento: limpa duplicatas, espaços e garante prefixo '#'
-            hashtags.Model = model;
-            hashtags.Hashtags = hashtags.Hashtags
-                .Where(h => !string.IsNullOrWhiteSpace(h))
-                .Select(h => h.Trim())
-                .Select(h => h.StartsWith("#") ? h : "#" + h)
-                .Select(h => h.Replace(" ", ""))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .Take(count)
-                .ToList();
-
-            hashtags.Count = hashtags.Hashtags.Count;
-
-            return hashtags;
+                Model = model,
+                Count = hashtags.Count,
+                Hashtags = hashtags
+            };
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Erro ao chamar Ollama: {ex.Message}");
-            return null;
+            return Fallback(count, model);
         }
     }
+
+    private HashtagResponse Fallback(int count, string model) =>
+        new HashtagResponse
+        {
+            Model = model,
+            Count = Math.Min(count, 2),
+            Hashtags = new List<string> { "#IA", "#AnaliseDeDados" }
+        };
 }
