@@ -1,19 +1,23 @@
-<div align="center">
+<p align="center">
   <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Hashtag Generator Logo" width="160"/>
-  
-  <h1><i><b>Hashtag Generator API</b></i> - Checkpoint (FIAP)</h1>
-  <p><b>Disciplina:</b> Advanced Business Development with .NET</p>
-  <p><b>Professor Orientador:</b> Leonardo Gasparini Romão</p>
-  <p>Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para geração inteligente de hashtags via modelo de linguagem local.</p>
-</div>
+</p>
+
+<h1 align="center"><i><b>Hashtag Generator API</b></i> - Checkpoint (FIAP)</h1>
+
+<p align="center">
+**Disciplina:** Advanced Business Development with .NET  
+**Professor Orientador:** Leonardo Gasparini Romão  
+Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para geração inteligente de hashtags via modelo de linguagem local.
+</p>
 
 ---
 
 ## 🏷️ Etiquetas
-[![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/)
-[![C#](https://img.shields.io/badge/C%23-Minimal%20API-green.svg)](https://learn.microsoft.com/aspnet/core)
-[![Ollama](https://img.shields.io/badge/AI-Ollama-black.svg)](https://ollama.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+
+[![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/)  
+[![C#](https://img.shields.io/badge/C%23-Minimal%20API-green.svg)](https://learn.microsoft.com/aspnet/core)  
+[![Ollama](https://img.shields.io/badge/AI-Ollama-black.svg)](https://ollama.com/)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)  
 [![FIAP](https://img.shields.io/badge/FIAP-2TDSB-red.svg)](https://www.fiap.com.br/)
 
 ---
@@ -22,16 +26,15 @@
 
 O **Hashtag Generator API** é uma **Minimal API** desenvolvida em **.NET 8** que utiliza o **Ollama** — um modelo de linguagem local — para gerar hashtags relevantes a partir de textos enviados pelo usuário.
 
-O projeto demonstra o uso prático de:
-- Consumo de **APIs REST locais** com `HttpClient`;
-- **Structured Outputs (JSON Schema)**;
-- **Boas práticas REST**;
-- Integração com IA **executando localmente**, sem dependência de nuvem.
+O projeto demonstra o uso prático de:  
+- Consumo de **APIs REST locais** com `HttpClient`  
+- **Structured Outputs (JSON Schema)**  
+- **Boas práticas REST**  
+- Integração com IA **executando localmente**, sem dependência de nuvem  
 
 > 💡 Desenvolvido como parte da disciplina **Advanced Business Development with .NET**, aplicando integração de APIs com Inteligência Artificial Local (Ollama).
 
 ---
-
 
 ## 🧠 Arquitetura do Sistema
 
@@ -67,12 +70,12 @@ sequenceDiagram
 
 ## 🧰 Tecnologias Utilizadas
 
-- **.NET 8 (Minimal API)**
-- **C# 12**
-- **Ollama (local LLM)**
-- **HttpClient**
-- **Swagger / JSON**
-- **VS Code / Postman**
+- **.NET 8 (Minimal API)**  
+- **C# 12**  
+- **Ollama (local LLM)**  
+- **HttpClient**  
+- **Swagger / JSON**  
+- **VS Code / Postman**  
 
 ---
 
@@ -103,9 +106,7 @@ HASHTAGGENERATORAPI/
 ```
 
 <p align="center">
-  <a href="https://youtu.be/_2VPrjS74WY" target="_blank">
-    <b>🎥 Assistir à demonstração completa no YouTube</b>
-  </a>
+  [🎥 Assistir à demonstração completa no YouTube](https://youtu.be/_2VPrjS74WY)
 </p>
 
 ---
@@ -126,6 +127,7 @@ Content-Type: application/json
 ```
 
 **Resposta esperada:**
+
 ```json
 {
   "hashtags": [
@@ -142,33 +144,36 @@ Content-Type: application/json
 
 ## ⚙️ Configuração e Execução
 
-### 1️⃣ Instalar o .NET 8
-Baixe em: [https://dotnet.microsoft.com/download](https://dotnet.microsoft.com/download)
+1️⃣ **Instalar o .NET 8**  
+[https://dotnet.microsoft.com/download](https://dotnet.microsoft.com/download)  
 
-### 2️⃣ Instalar o Ollama
-Baixe e instale via [https://ollama.com/download](https://ollama.com/download)
+2️⃣ **Instalar o Ollama**  
+[https://ollama.com/download](https://ollama.com/download)  
 
-### 3️⃣ Baixar modelo leve
+3️⃣ **Baixar modelo leve**  
+
 ```bash
 ollama pull llama3.2:3b
 ```
 
-### 4️⃣ Confirmar se o Ollama está rodando
+4️⃣ **Confirmar se o Ollama está rodando**  
+
 ```bash
 curl http://localhost:11434/api/tags
 ```
 
-### 5️⃣ Executar a API
+5️⃣ **Executar a API**  
+
 ```bash
 dotnet run
 ```
 
-### 6️⃣ Testar o endpoint
+6️⃣ **Testar o endpoint**  
 Use o `test.http` ou Postman para enviar o POST `/hashtags`.
 
 ---
 
-## 🧩 appsettings.json (exemplo)
+## 🧩 Exemplo appsettings.json
 
 ```json
 {
@@ -184,19 +189,21 @@ Use o `test.http` ou Postman para enviar o POST `/hashtags`.
 ## 🧪 Testes Locais
 
 Execute:
+
 ```bash
 dotnet run
 ```
 
 A aplicação responderá em:
+
 ```
 http://localhost:5000
 ```
 
-Envie requisições com:
-- `test.http` (VS Code)
-- `curl`
-- `Postman`
+Envie requisições com:  
+- `test.http` (VS Code)  
+- `curl`  
+- `Postman`  
 
 ---
 
@@ -274,28 +281,29 @@ Content-Type: application/json
   "count": 5,
   "model": "llama3.2:3b"
 }
+```
 
-</details> 
+</details>
+
+---
 
 ## 🧠 Aprendizados
 
-Durante o desenvolvimento, foram aplicadas:
-- Boas práticas de integração API ↔️ IA Local;
-- Prompts estruturados e controle de saída JSON;
-- Configuração de ambiente via `appsettings.json`;
-- Uso de Minimal API com código limpo e eficiente.
+Durante o desenvolvimento, foram aplicadas:  
+- Boas práticas de integração API ↔️ IA Local  
+- Prompts estruturados e controle de saída JSON  
+- Configuração de ambiente via `appsettings.json`  
+- Uso de Minimal API com código limpo e eficiente
 
 ---
 
 ## 📚 Documentação Técnica
 
-Para uma visão detalhada da arquitetura, fluxo e endpoints da aplicação, consulte os arquivos abaixo:
-
 | Documento | Descrição |
 |------------|------------|
-| [🏗️ Arquitetura do Sistema](docs/arquitetura.md) | Estrutura geral da API, camadas e responsabilidades. |
-| [🔄 Diagrama de Fluxo](docs/diagrama_fluxo.md) | Fluxo completo da requisição, do cliente ao Ollama Server. |
-| [🧩 Endpoints da API](docs/endpoints.md) | Detalhamento das rotas, parâmetros e exemplos de requisições. |
+| [🏗️ Arquitetura do Sistema](docs/arquitetura.md) | Estrutura geral da API, camadas e responsabilidades |
+| [🔄 Diagrama de Fluxo](docs/diagrama_fluxo.md) | Fluxo completo da requisição, do cliente ao Ollama Server |
+| [🧩 Endpoints da API](docs/endpoints.md) | Detalhamento das rotas, parâmetros e exemplos de requisições |
 
 ---
 
@@ -320,6 +328,7 @@ Consulte [LICENSE](https://choosealicense.com/licenses/mit/) para mais detalhes.
 
 ## 🔗 Referências
 
-- [Ollama Docs](https://ollama.com/library)
-- [Microsoft Docs – Minimal APIs](https://learn.microsoft.com/aspnet/core/fundamentals/minimal-apis)
+- [Ollama Docs](https://ollama.com/library)  
+- [Microsoft Docs – Minimal APIs](https://learn.microsoft.com/aspnet/core/fundamentals/minimal-apis)  
 - [FIAP - Advanced Business Development with .NET](https://www.fiap.com.br/)
+
