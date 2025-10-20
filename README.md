@@ -212,12 +212,17 @@ Envie requisições com:
 <details>
 <summary>🔹 Clique para expandir os testes dos endpoints</summary>
 
+### 🔹 Teste do endpoint `/ping`
+
 ```http
 GET http://localhost:5000/ping
+```
 
-# 🔹 Testes do endpoint /hashtags
+### 🔹 Testes do endpoint `/hashtags`
 
-1. Count informado
+**1️⃣ Count informado**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
@@ -226,8 +231,11 @@ Content-Type: application/json
   "count": 8,
   "model": "llama3.2:3b"
 }
+```
 
-2. Count não informado (padrão = 10)
+**2️⃣ Count não informado (padrão = 10)**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
@@ -235,8 +243,11 @@ Content-Type: application/json
   "text": "Teste sem count",
   "model": "llama3.2:3b"
 }
+```
 
-3. Count maior que 30 (limite máximo)
+**3️⃣ Count maior que 30 (limite máximo)**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
@@ -245,8 +256,11 @@ Content-Type: application/json
   "count": 50,
   "model": "llama3.2:3b"
 }
+```
 
-4. Modelo vazio (usar padrão)
+**4️⃣ Modelo vazio (usar padrão)**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
@@ -255,8 +269,11 @@ Content-Type: application/json
   "count": 5,
   "model": ""
 }
+```
 
-5. Campo text vazio
+**5️⃣ Campo `text` vazio**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
@@ -265,14 +282,20 @@ Content-Type: application/json
   "count": 5,
   "model": "llama3.2:3b"
 }
+```
 
-6. Corpo nulo
+**6️⃣ Corpo nulo**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
 null
+```
 
-7. Falha Ollama (opcional: desligar Ollama para testar fallback)
+**7️⃣ Falha Ollama (opcional: desligar Ollama para testar fallback)**
+
+```http
 POST http://localhost:5000/hashtags
 Content-Type: application/json
 
