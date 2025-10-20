@@ -15,13 +15,12 @@ Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para g
 
 ## 🏷️ Etiquetas
 
-<div align="center">
-  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-8.0-blue.svg" alt=".NET"></a>
-  <a href="https://learn.microsoft.com/aspnet/core"><img src="https://img.shields.io/badge/C%23-Minimal%20API-green.svg" alt="C#"></a>
-  <a href="https://ollama.com/"><img src="https://img.shields.io/badge/AI-Ollama-black.svg" alt="Ollama"></a>
-  <a href="https://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT"></a>
-  <a href="https://www.fiap.com.br/"><img src="https://img.shields.io/badge/FIAP-2TDSB-red.svg" alt="FIAP"></a>
-</div>
+[![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/) 
+[![C#](https://img.shields.io/badge/C%23-Minimal%20API-green.svg)](https://learn.microsoft.com/aspnet/core) 
+[![Ollama](https://img.shields.io/badge/AI-Ollama-black.svg)](https://ollama.com/) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/) 
+[![FIAP](https://img.shields.io/badge/FIAP-2TDSB-red.svg)](https://www.fiap.com.br/)
+
 
 
 ---
