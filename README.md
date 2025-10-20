@@ -1,6 +1,7 @@
 <p align="center">
-  <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" alt="Hashtag Generator Logo" width="160"/>
+  <img src="https://cdn-icons-png.flaticon.com/512/1006/1006771.png" alt="Hashtag Generator API Logo" width="160"/>
 </p>
+
 
 <h1 align="center"><i><b>Hashtag Generator API</b></i> - Checkpoint (FIAP)</h1>
 
