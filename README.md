@@ -36,6 +36,18 @@ O projeto demonstra o uso prático de:
 
 ---
 
+## 🎥 Demonstração do Projeto
+
+Assista à demonstração completa da **Hashtag Generator API** desenvolvida como parte da disciplina *Advanced Business Development with .NET (FIAP)*:
+
+<div align="center">
+
+[![Assista à demonstração no YouTube](https://img.youtube.com/vi/_2VPrjS74WY/0.jpg)](https://youtu.be/_2VPrjS74WY)
+
+</div>
+
+---
+
 ## 🧠 Arquitetura do Sistema
 
 O projeto segue uma arquitetura **Minimalista e Configurável**, separando lógica e parâmetros no `appsettings.json`.
@@ -82,8 +94,10 @@ sequenceDiagram
 ## 🧩 Estrutura do Projeto
 
 ```
-HashtagGeneratorApi/
+HASHTAGGENERATORAPI/
 ├── bin/
+├── Controllers/
+│   └── HashtagController.cs
 ├── docs/
 │   ├── arquitetura.md
 │   ├── diagrama_fluxo.md
@@ -91,15 +105,20 @@ HashtagGeneratorApi/
 ├── Models/
 │   ├── HashtagRequest.cs
 │   └── HashtagResponse.cs
+├── obj/
 ├── Services/
 │   └── OllamaService.cs
+├── .gitattributes
+├── .gitignore
 ├── appsettings.json
+├── HashtagGeneratorAPI_Demo.mp4
 ├── HashtagGeneratorApi.csproj
 ├── Program.cs
-├── test.http
 ├── README.md
-└── .gitignore
+└── test.http
 ```
+
+> 🎥 O vídeo `HashtagGeneratorAPI_Demo.mp4` demonstra a execução completa do projeto — também disponível no YouTube: [https://youtu.be/_2VPrjS74WY](https://youtu.be/_2VPrjS74WY)
 
 ---
 
