@@ -7,10 +7,6 @@
   <p>Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para geração inteligente de hashtags via modelo de linguagem local.</p>
 </div>
 
-<p align="center">
-  🔗 <a href="https://github.com/leomotalima/HashtagGeneratorApi"><b>Repositório Oficial no GitHub</b></a>
-</p>
-
 ---
 
 ## 🏷️ Etiquetas
@@ -36,17 +32,6 @@ O projeto demonstra o uso prático de:
 
 ---
 
-## 🎥 Demonstração do Projeto
-
-Assista à demonstração completa da **Hashtag Generator API** desenvolvida como parte da disciplina *Advanced Business Development with .NET (FIAP)*:
-
-<div align="center">
-
-[![Assista à demonstração no YouTube](https://img.youtube.com/vi/_2VPrjS74WY/0.jpg)](https://youtu.be/_2VPrjS74WY)
-
-</div>
-
----
 
 ## 🧠 Arquitetura do Sistema
 
@@ -111,14 +96,17 @@ HASHTAGGENERATORAPI/
 ├── .gitattributes
 ├── .gitignore
 ├── appsettings.json
-├── HashtagGeneratorAPI_Demo.mp4
 ├── HashtagGeneratorApi.csproj
 ├── Program.cs
 ├── README.md
 └── test.http
 ```
 
-> 🎥 O vídeo `HashtagGeneratorAPI_Demo.mp4` demonstra a execução completa do projeto — também disponível no YouTube: [https://youtu.be/_2VPrjS74WY](https://youtu.be/_2VPrjS74WY)
+<p align="center">
+  <a href="https://youtu.be/_2VPrjS74WY" target="_blank">
+    <b>🎥 Assistir à demonstração completa no YouTube</b>
+  </a>
+</p>
 
 ---
 
@@ -211,6 +199,83 @@ Envie requisições com:
 - `Postman`
 
 ---
+
+## 🧪 Testes Detalhados da Hashtag Generator API
+
+<details>
+<summary>🔹 Clique para expandir os testes dos endpoints</summary>
+
+```http
+GET http://localhost:5000/ping
+
+# 🔹 Testes do endpoint /hashtags
+
+1. Count informado
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "text": "Inteligência Artificial aplicada em análise de dados",
+  "count": 8,
+  "model": "llama3.2:3b"
+}
+
+2. Count não informado (padrão = 10)
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "text": "Teste sem count",
+  "model": "llama3.2:3b"
+}
+
+3. Count maior que 30 (limite máximo)
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "text": "Teste count alto",
+  "count": 50,
+  "model": "llama3.2:3b"
+}
+
+4. Modelo vazio (usar padrão)
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "text": "Teste sem modelo",
+  "count": 5,
+  "model": ""
+}
+
+5. Campo text vazio
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "text": "",
+  "count": 5,
+  "model": "llama3.2:3b"
+}
+
+6. Corpo nulo
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+null
+
+7. Falha Ollama (opcional: desligar Ollama para testar fallback)
+POST http://localhost:5000/hashtags
+Content-Type: application/json
+
+{
+  "text": "Teste falha Ollama",
+  "count": 5,
+  "model": "llama3.2:3b"
+}
+
+</details> ```
 
 ## 🧠 Aprendizados
 
