@@ -5,11 +5,14 @@
 
 <h1 align="center"><i><b>Hashtag Generator API</b></i> - Checkpoint (FIAP)</h1>
 
-<p align="center">
-**Disciplina:** Advanced Business Development with .NET  
-**Professor Orientador:** Leonardo Gasparini Romão  
-Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para geração inteligente de hashtags via modelo de linguagem local.
-</p>
+<div align="center">
+
+<p><b>Disciplina:</b> Advanced Business Development with .NET</p>
+<p><b>Professor Orientador:</b> Leonardo Gasparini Romão</p>
+<p>Minimal API desenvolvida em <b>.NET 8</b> que integra com o <b>Ollama</b> para geração inteligente de hashtags via modelo de linguagem local.</p>
+
+</div>
+
 
 ---
 
