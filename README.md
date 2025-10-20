@@ -275,7 +275,7 @@ Content-Type: application/json
   "model": "llama3.2:3b"
 }
 
-</details> ```
+</details> 
 
 ## 🧠 Aprendizados
 
