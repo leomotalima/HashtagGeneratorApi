@@ -344,7 +344,7 @@ Durante o desenvolvimento, foram aplicadas:
 
 | Nome | RM | Responsabilidade |
 |------|----|------------------|
-| **Léo Mota Lima** | 557851 | Desenvolvimento da API, integração com Ollama, documentação e diagrama técnico |
+| **Léo Mota Lima** | 557851 | 2TDSB | Desenvolvimento da API, integração com Ollama, documentação e diagrama técnico |
 
 ---
 
