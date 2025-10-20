@@ -342,9 +342,10 @@ Durante o desenvolvimento, foram aplicadas:
 
 ## 👨‍💻 Autor
 
-| Nome | RM | Responsabilidade |
-|------|----|------------------|
+| Nome | RM | Turma | Responsabilidade |
+|------|----|-------|------------------|
 | **Léo Mota Lima** | 557851 | 2TDSB | Desenvolvimento da API, integração com Ollama, documentação e diagrama técnico |
+
 
 ---
 
